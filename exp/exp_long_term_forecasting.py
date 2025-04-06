@@ -354,7 +354,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
                     pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
                     visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
 
-                if self.args.with_retrain == 1: 
+                if hasattr(self.args, 'with_retrain') and self.args.with_retrain == 1: 
                     break 
 
         preds = np.concatenate(preds, axis=0)
