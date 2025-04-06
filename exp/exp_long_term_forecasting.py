@@ -195,6 +195,12 @@ class Exp_Long_Term_Forecast(Exp_Basic):
                         outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
                     outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                print("Raw output shape:", outputs.shape)
+
+                # Fix shape if TimeXer outputs (B, c_out, pred_len)
+                if outputs.shape[1] == self.args.c_out and outputs.shape[2] == self.args.pred_len:
+                    outputs = outputs.permute(0, 2, 1)
+                    print("Permuted output shape:", outputs.shape)
 
                 f_dim = -1 if self.args.features == 'MS' else 0
                 outputs = outputs[:, -self.args.pred_len:, :]
