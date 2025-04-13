@@ -367,8 +367,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
         preds_inverse = preds_inverse.reshape(-1, preds_inverse.shape[-2], preds_inverse.shape[-1])
         trues_inverse = trues_inverse.reshape(-1, trues_inverse.shape[-2], trues_inverse.shape[-1])
-        preds_inverse = np.expm1(preds_inverse)
-        trues_inverse = np.expm1(trues_inverse)
+        
 
 
         print('test shape:', preds.shape, trues.shape)

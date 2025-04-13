@@ -106,7 +106,7 @@ class Dataset_ETT_hour(Dataset):
         return len(self.data_x) - self.seq_len - self.pred_len + 1
 
     def inverse_transform(self, data):
-        return self.scaler.inverse_transform(data)
+        return np.expm1(self.scaler.inverse_transform(data))
 
 
 class Dataset_ETT_minute(Dataset):
@@ -261,11 +261,15 @@ class Dataset_Custom(Dataset):
             df_data = df_raw[[self.target]]
 
         if self.scale:
-            train_data = df_data[border1s[0]:border2s[0]]
-            self.scaler.fit(train_data.values)
-            data = self.scaler.transform(df_data.values)
+            data = df_data.values
+            if self.args.use_log:
+                data = np.log1p(data)
+            train_data = data[border1s[0]:border2s[0]]
+            self.scaler.fit(train_data)
+            data = self.scaler.transform(data)
         else:
             data = df_data.values
+
 
         df_stamp = df_raw[['date']][border1:border2]
         df_stamp['date'] = pd.to_datetime(df_stamp.date)
@@ -304,7 +308,10 @@ class Dataset_Custom(Dataset):
         return len(self.data_x) - self.seq_len - self.pred_len + 1
 
     def inverse_transform(self, data):
-        return self.scaler.inverse_transform(data)
+        if getattr(self.args, 'use_log', True):  # use log transform if enabled
+            return np.expm1(self.scaler.inverse_transform(data))
+        else:
+            return self.scaler.inverse_transform(data)
 
 
 class Dataset_M4(Dataset):

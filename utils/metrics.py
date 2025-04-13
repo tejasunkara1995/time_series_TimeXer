@@ -30,12 +30,17 @@ def MAPE(pred, true):
 def MSPE(pred, true):
     return np.mean(np.square((true - pred) / true))
 
+def SMAPE(pred, true):
+    return 200*np.mean(np.abs( pred - true)  / ( np.abs(true) + np.abs(pred) + 1e-5)  )
 
-def metric(pred, true):
+
+
+def metric(pred, true, preds_inverse, trues_inverse):
     mae = MAE(pred, true)
     mse = MSE(pred, true)
     rmse = RMSE(pred, true)
     mape = MAPE(pred, true)
     mspe = MSPE(pred, true)
+    smape = SMAPE(preds_inverse, trues_inverse)
 
-    return mae, mse, rmse, mape, mspe
+    return mae, mse, rmse, mape, mspe, smape

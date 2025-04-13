@@ -139,6 +139,7 @@ if __name__ == '__main__':
 
     # TimeXer
     parser.add_argument('--patch_len', type=int, default=16, help='patch length')
+    parser.add_argument('--use_log', type=bool, default=True, help='Apply log1p transform')
 
     args = parser.parse_args()
     if torch.cuda.is_available() and args.use_gpu:
