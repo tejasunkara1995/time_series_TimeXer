@@ -42,5 +42,6 @@ def metric(pred, true, preds_inverse, trues_inverse):
     mape = MAPE(pred, true)
     mspe = MSPE(pred, true)
     smape = SMAPE(preds_inverse, trues_inverse)
+    mae_inv = MAE(preds_inverse, trues_inverse )
 
-    return mae, mse, rmse, mape, mspe, smape
+    return mae, mse, rmse, mape, mspe, smape, mae_inv
